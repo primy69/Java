@@ -5,9 +5,11 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
+//Dorian
 public class TimerApp {
     private Timer timer;
     private TimerTask reminderTask;
+    private int remainingTime;
 
     public TimerApp() {
         timer = new Timer();
@@ -21,11 +23,18 @@ public class TimerApp {
         JPanel panel = new JPanel();
         frame.getContentPane().add(panel);
 
+        // Adaugă un câmp text pentru intrarea utilizatorului
+        JTextField inputField = new JTextField(10);
+        panel.add(inputField);
+
         JButton button1 = new JButton("Start Timer");
         panel.add(button1);
 
         button1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                // Inițializează timpul rămas la valoarea introdusă de utilizator
+                remainingTime = Integer.parseInt(inputField.getText());
+
                 startTimer();
             }
         });
@@ -42,7 +51,7 @@ public class TimerApp {
         frame.pack();
         frame.setVisible(true);
     }
-
+    //Pavel
     private void startTimer() {
         // Timer care se declanseaza la un anumit timp
         Calendar date = Calendar.getInstance();
@@ -53,9 +62,11 @@ public class TimerApp {
         timer.schedule(reminderTask, date.getTime());
 
         // Timer care se declanseaza la un interval de timp specificat
-        timer.schedule(new IntervalTask(), 0, 5000);
+        timer.schedule(new fiveseconds(), 0, 5000);
+        timer.schedule(new Intervalpetimp(), 0, 5000);
     }
 
+    //Marius
     private void stopTimer() {
         timer.cancel();
     }
@@ -73,8 +84,18 @@ public class TimerApp {
             JOptionPane.showMessageDialog(null, "Este ora " + hour + ":" + minute + ".");
         }
     }
+    //Pavel
+    class Intervalpetimp extends TimerTask {
+        public void run() {
+            remainingTime -= 5;
+            if (remainingTime <= 0) {
+                JOptionPane.showMessageDialog(null, "Timpul a fost epuizat.");
+                stopTimer();
+            }
+        }
 
-    class IntervalTask extends TimerTask {
+    }
+    class fiveseconds extends TimerTask {
         public void run() {
             JOptionPane.showMessageDialog(null, "Au trecut 5 secunde.");
         }
